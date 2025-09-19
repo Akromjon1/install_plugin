@@ -24,20 +24,33 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk = 34
+    namespace "com.example.installplugin"   // ✅ required for AGP 8+
+
+    compileSdkVersion 34                   // ✅ safe modern SDK
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
+        minSdkVersion 21                   // ✅ modern minimum
+        targetSdkVersion 34
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        // ✅ Align Java version
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
+        // ✅ Align Kotlin JVM target with Java
         jvmTarget = "1.8"
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
     }
 }
 
